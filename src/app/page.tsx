@@ -1,8 +1,6 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import { personas } from "@/utils/persona";
 
 export default function Home() {
   const [selectedPersona, setSelectedPersona] = useState("default");
@@ -56,15 +54,13 @@ export default function Home() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-4xl font-semibold tracking-tight ">
-        Feedback AI
-      </h1>
+    <section className="flex flex-col items-center justify-center h-screen w-full" >
+      <h1 className="text-2xl lg:text-4xl font-semibold tracking-tight ">Feedback AI</h1>
       <p className="text-lg text-white/35 ">
         Get roasted or praised by AI personas
       </p>
 
-      <div className="flex flex-col gap-4 mt-10 w-[500px]">
+      <div className="flex flex-col gap-4 mt-10 md:w-[500px] w-full p-5 lg:p-0 ">
         <textarea
           className="bg-white/5 rounded-md p-2 text-white/35 text-sm"
           placeholder="Paste your pitch, text, or anything you want to get feedback on"

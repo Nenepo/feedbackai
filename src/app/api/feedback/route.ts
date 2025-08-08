@@ -4,7 +4,7 @@ import { personas } from "@/utils/persona";
 
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.NEXT_GEMMA_API_KEY,
+  apiKey: process.env.NEXT_GEMMA_API_KEY || "",
   defaultHeaders: {
     "HTTP-Referer": "http://localhost:3000",
     "X-Title": "feedback-ai",
@@ -14,6 +14,13 @@ const openai = new OpenAI({
 export async function POST(request: NextRequest) {
   try {
     const { userText, persona } = await request.json();
+
+    if (!process.env.NEXT_GEMMA_API_KEY) {
+      return NextResponse.json(
+        { error: "API key not configured" },
+        { status: 500 }
+      );
+    }
 
     const personaDescription =
       personas[persona as keyof typeof personas] || "Give honest feedback";
