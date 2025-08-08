@@ -14,7 +14,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Cracked Feedback",
-  description: "Get savage & helpful feedback from AI personas: Gen Z, Investor, Bestie, Brutally Honest Auntie… ",
+  description:
+    "Get savage & helpful feedback from AI personas: Gen Z, Investor, Bestie, Brutally Honest Auntie… ",
+  viewport:
+    "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
 };
 
 export default function RootLayout({
