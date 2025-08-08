@@ -54,8 +54,10 @@ export default function Home() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center h-screen w-full" >
-      <h1 className="text-2xl lg:text-4xl font-semibold tracking-tight ">Feedback AI</h1>
+    <section className="flex flex-col items-center justify-center h-screen w-full">
+      <h1 className="text-2xl lg:text-4xl font-semibold tracking-tight ">
+        Feedback AI
+      </h1>
       <p className="text-lg text-white/35 ">
         Get roasted or praised by AI personas
       </p>
@@ -103,10 +105,28 @@ export default function Home() {
         </div>
 
         <button
-          className="bg-white/5 rounded-md p-2 text-white border border-white/10 focus:border-white/30 focus:outline-none transition-colors flex justify-center items-center cursor-pointer w-[200px] mx-auto text-center  "
+          className={`bg-white/5 rounded-md p-2 text-white border border-white/10 focus:border-white/30 focus:outline-none transition-colors flex justify-center items-center ${loading ? "cursor-not-allowed" : "cursor-pointer"} w-[200px] mx-auto text-center`}
           onClick={handleGetFeedback}
+          disabled={loading}
         >
-          {loading ? "Getting feedback..." : "Get Feedback"}
+          {loading ? (
+            <div className="flex items-center gap-2">
+              <span>Getting feedback</span>
+              <div className="flex gap-1">
+                <div className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce"></div>
+                <div
+                  className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.1s" }}
+                ></div>
+                <div
+                  className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.2s" }}
+                ></div>
+              </div>
+            </div>
+          ) : (
+            "Get Feedback"
+          )}
         </button>
       </div>
       {feedback && (
@@ -130,31 +150,24 @@ export default function Home() {
             </button>
           </div>
           <div className="bg-white/5 rounded-lg p-6 text-white/90 border border-white/10 shadow-lg max-h-[400px] overflow-y-auto custom-scrollbar">
-            {loading ? (
-              <div className="flex items-center gap-3">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                <span>Generating feedback...</span>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                <div
-                  className={`whitespace-pre-line leading-relaxed text-white/80 ${
-                    !showFullFeedback ? "line-clamp-5" : ""
-                  }`}
-                  dangerouslySetInnerHTML={{
-                    __html: formatFeedbackText(feedback),
-                  }}
-                />
-                {feedback.split("\n").length > 5 && (
-                  <button
-                    onClick={() => setShowFullFeedback(!showFullFeedback)}
-                    className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
-                  >
-                    {showFullFeedback ? "Show less" : "Show more"}
-                  </button>
-                )}
-              </div>
-            )}
+            <div className="space-y-3">
+              <div
+                className={`whitespace-pre-line leading-relaxed text-white/80 ${
+                  !showFullFeedback ? "line-clamp-5" : ""
+                }`}
+                dangerouslySetInnerHTML={{
+                  __html: formatFeedbackText(feedback),
+                }}
+              />
+              {feedback.split("\n").length > 5 && (
+                <button
+                  onClick={() => setShowFullFeedback(!showFullFeedback)}
+                  className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
+                >
+                  {showFullFeedback ? "Show less" : "Show more"}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
