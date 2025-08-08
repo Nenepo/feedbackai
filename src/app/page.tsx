@@ -58,7 +58,7 @@ export default function Home() {
   return (
     <section className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-4xl font-semibold tracking-tight ">
-        Cracked Feedback
+        Feedback AI
       </h1>
       <p className="text-lg text-white/35 ">
         Get roasted or praised by AI personas
