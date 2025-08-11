@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [selectedPersona, setSelectedPersona] = useState("default");
@@ -9,6 +9,15 @@ export default function Home() {
   const [feedback, setFeedback] = useState("");
   const [loading, setLoading] = useState(false);
   const [showFullFeedback, setShowFullFeedback] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("dark"); // Theme state
+
+  // Apply theme to <html> element
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      document.documentElement.classList.toggle("dark", theme === "dark");
+      document.documentElement.classList.toggle("light", theme === "light");
+    }
+  }, [theme]);
 
   const personasList = [
     { value: "default", label: "Select a persona" },
@@ -54,17 +63,25 @@ export default function Home() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen w-full">
-      <h1 className="text-2xl lg:text-4xl font-semibold tracking-tight ">
+    <section className="flex flex-col items-center justify-center min-h-screen w-full bg-white dark:bg-gray-950 transition-colors">
+      {/* Theme Toggle Button */}
+      {/* <button
+        className="absolute top-4 right-4 px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-700 shadow transition-colors"
+        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      >
+        {theme === "dark" ? "🌞 Light Mode" : "🌙 Dark Mode"}
+      </button> */}
+
+      <h1 className="text-2xl lg:text-4xl font-semibold tracking-tight text-gray-900 dark:text-white transition-colors">
         Feedback AI
       </h1>
-      <p className="text-lg text-white/35 ">
+      <p className="text-lg text-gray-600 dark:text-white/35 transition-colors">
         Get roasted or praised by AI personas
       </p>
 
       <div className="flex flex-col gap-4 mt-6 md:w-[500px] w-full p-5 lg:p-0 ">
         <textarea
-          className="bg-white/5 rounded-md p-2 text-white/70 placeholder:text-white/35 text-sm"
+          className="bg-gray-100 dark:bg-white/5 rounded-md p-2 text-gray-900 dark:text-white/70 placeholder:text-gray-400 dark:placeholder:text-white/35 text-sm transition-colors"
           placeholder="Paste your pitch, text, or anything you want to get feedback on"
           value={userText}
           onChange={(e) => setUserText(e.target.value)}
@@ -74,16 +91,16 @@ export default function Home() {
         <div className="relative">
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="w-full bg-white/5 rounded-md p-2 text-white border border-white/10 focus:border-white/30 focus:outline-none transition-colors text-left flex justify-between items-center"
+            className="w-full bg-gray-100 dark:bg-white/5 rounded-md p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/10 focus:border-gray-400 dark:focus:border-white/30 focus:outline-none transition-colors text-left flex justify-between items-center"
           >
             <span>
               {personasList.find((p) => p.value === selectedPersona)?.label}
             </span>
-            <span className="text-white/50">▼</span>
+            <span className="text-gray-500 dark:text-white/50">▼</span>
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-white/10 rounded-md shadow-lg z-10">
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-white/10 rounded-md shadow-lg z-10 transition-colors">
               {personasList.map((persona) => (
                 <button
                   key={persona.value}
@@ -91,11 +108,11 @@ export default function Home() {
                     setSelectedPersona(persona.value);
                     setIsDropdownOpen(false);
                   }}
-                  className={`w-full p-2 text-left hover:bg-white/10 transition-colors ${
+                  className={`w-full p-2 text-left hover:bg-gray-200 dark:hover:bg-white/10 transition-colors ${
                     selectedPersona === persona.value
-                      ? "bg-white/20 text-white"
-                      : "text-white/80"
-                  } ${persona.value === "default" ? "text-white/50" : ""}`}
+                      ? "bg-gray-300 dark:bg-white/20 text-gray-900 dark:text-white"
+                      : "text-gray-800 dark:text-white/80"
+                  } ${persona.value === "default" ? "text-gray-400 dark:text-white/50" : ""}`}
                 >
                   {persona.label}
                 </button>
@@ -105,7 +122,7 @@ export default function Home() {
         </div>
 
         <button
-          className={`bg-white/5 rounded-md p-2 text-white border border-white/10 focus:border-white/30 focus:outline-none transition-colors flex justify-center items-center ${loading ? "cursor-not-allowed" : "cursor-pointer"} w-[200px] mx-auto text-center`}
+          className={`bg-gray-100 dark:bg-white/5 rounded-md p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-white/10 focus:border-gray-400 dark:focus:border-white/30 focus:outline-none transition-colors flex justify-center items-center ${loading ? "cursor-not-allowed" : "cursor-pointer"} w-[200px] mx-auto text-center`}
           onClick={handleGetFeedback}
           disabled={loading}
         >
@@ -113,13 +130,13 @@ export default function Home() {
             <div className="flex items-center gap-2">
               <span>Getting feedback</span>
               <div className="flex gap-1">
-                <div className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce"></div>
+                <div className="w-1.5 h-1.5 bg-gray-400 dark:bg-white/60 rounded-full animate-bounce"></div>
                 <div
-                  className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce"
+                  className="w-1.5 h-1.5 bg-gray-400 dark:bg-white/60 rounded-full animate-bounce"
                   style={{ animationDelay: "0.1s" }}
                 ></div>
                 <div
-                  className="w-1.5 h-1.5 bg-white/60 rounded-full animate-bounce"
+                  className="w-1.5 h-1.5 bg-gray-400 dark:bg-white/60 rounded-full animate-bounce"
                   style={{ animationDelay: "0.2s" }}
                 ></div>
               </div>
@@ -134,9 +151,9 @@ export default function Home() {
           <div className="flex items-center justify-between">
             {/* persona and feedback */}
             <div className="flex items-center gap-3">
-              <h3 className="text-white text-xl font-semibold">Feedback</h3>
+              <h3 className="text-gray-900 dark:text-white text-xl font-semibold transition-colors">Feedback</h3>
               {selectedPersona !== "default" && (
-                <span className="bg-white/10 px-3 py-1 rounded-full text-sm text-white/70">
+                <span className="bg-gray-200 dark:bg-white/10 px-3 py-1 rounded-full text-sm text-gray-700 dark:text-white/70 transition-colors">
                   {selectedPersona}
                 </span>
               )}
@@ -144,17 +161,17 @@ export default function Home() {
             {/* cancel button */}
             <button
               onClick={handleCancel}
-              className="text-white/50 hover:text-white/80 transition-colors text-sm"
+              className="text-gray-400 dark:text-white/50 hover:text-gray-700 dark:hover:text-white/80 transition-colors text-sm"
             >
               ✕
             </button>
           </div>
-          <div className="bg-white/5 rounded-lg p-6 text-white/90 border border-white/10 shadow-lg max-h-[400px] overflow-y-auto custom-scrollbar">
+          <div className="bg-gray-100 dark:bg-white/5 rounded-lg p-6 text-gray-900 dark:text-white/90 border border-gray-300 dark:border-white/10 shadow-lg max-h-[400px] overflow-y-auto custom-scrollbar transition-colors">
             <div className="space-y-3">
               <div
-                className={`whitespace-pre-line leading-relaxed text-white/80 ${
+                className={`whitespace-pre-line leading-relaxed text-gray-800 dark:text-white/80 ${
                   !showFullFeedback ? "line-clamp-5" : ""
-                }`}
+                } transition-colors`}
                 dangerouslySetInnerHTML={{
                   __html: formatFeedbackText(feedback),
                 }}
@@ -162,7 +179,7 @@ export default function Home() {
               {feedback.split("\n").length > 5 && (
                 <button
                   onClick={() => setShowFullFeedback(!showFullFeedback)}
-                  className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 text-sm font-medium transition-colors"
                 >
                   {showFullFeedback ? "Show less" : "Show more"}
                 </button>
