@@ -54,7 +54,7 @@ export default function Home() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center h-screen w-full">
+    <section className="flex flex-col items-center justify-center min-h-screen w-full">
       <h1 className="text-2xl lg:text-4xl font-semibold tracking-tight ">
         Feedback AI
       </h1>
@@ -64,7 +64,7 @@ export default function Home() {
 
       <div className="flex flex-col gap-4 mt-6 md:w-[500px] w-full p-5 lg:p-0 ">
         <textarea
-          className="bg-white/5 rounded-md p-2 text-white/70 text-sm"
+          className="bg-white/5 rounded-md p-2 text-white/70 placeholder:text-white/35 text-sm"
           placeholder="Paste your pitch, text, or anything you want to get feedback on"
           value={userText}
           onChange={(e) => setUserText(e.target.value)}
