@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `${personaDescription}\n\nNow Give feedback on this: "${userText}". Use *text* for bold emphasis and feel free to add relevant emojis to make it fun and engaging. `,
+          content: `${personaDescription}\n\nNow Give feedback on this: "${userText}". Use *text* for bold emphasis and make it fun and engaging, you could also roast if needed. `,
         },
       ],
     });
